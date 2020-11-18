@@ -2,7 +2,7 @@ name: Create PR from master to release
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   gitPrRelease:
@@ -14,6 +14,6 @@ jobs:
       uses: bakunyo/git-pr-release-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GIT_PR_RELEASE_BRANCH_STAGING: master
+        GIT_PR_RELEASE_BRANCH_STAGING: main
         GIT_PR_RELEASE_BRANCH_PRODUCTION: release
         GIT_PR_RELEASE_LABELS: release
