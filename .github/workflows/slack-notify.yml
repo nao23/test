@@ -1,15 +1,13 @@
 name: Slack Notify (test)
 on:
-  pull_request:
+  push:
     branches:
-      - main
-    types: [closed]
+      - specify-job-name 
 
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -34,7 +32,6 @@ jobs:
     name: Deploy
     needs: build
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
     strategy:
       matrix:
         service: ["web", "ope"]
@@ -57,7 +54,6 @@ jobs:
           author_name: ''
           username: 'GitHub Actions'
           icon_emoji: ':github_octocat:'
-          job_name: Deploy (${{ matrix.service }})
           fields: repo,commit,author,job,workflow,took
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
