@@ -24,7 +24,7 @@ jobs:
         if: always() # Pick up events even if the job fails or is canceled.
 
   deploy:
-    name: Deploy
+    name: deploy
     needs: build
     runs-on: ubuntu-latest
     strategy:
