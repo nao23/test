@@ -27,6 +27,7 @@ jobs:
           icon_emoji: ':github_octocat:'
           fields: repo,commit,author,job,workflow,took
         env:
+          GITHUB_TOKEN: ${{ github.token }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: always()
 
@@ -59,6 +60,7 @@ jobs:
           icon_emoji: ':github_octocat:'
           fields: repo,commit,author,job,workflow,took
         env:
+          GITHUB_TOKEN: ${{ github.token }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
         if: always()
