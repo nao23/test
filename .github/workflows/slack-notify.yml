@@ -4,8 +4,8 @@ on:
     branches:
       - specify-job-name 
 jobs:
-  hoge:
-    name: hoge
+  build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Hello
@@ -15,7 +15,7 @@ jobs:
         with:
           status: ${{ job.status }}
           author_name: ''
-          job_name: hoge
+          job_name: Build
           username: Test
           icon_emoji: ':github_octocat:'
           fields: repo,commit,author,job,workflow,took # selectable (default: repo,message)
@@ -23,9 +23,9 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
         if: always() # Pick up events even if the job fails or is canceled.
 
-  fuga:
-    name: fuga
-    needs: hoge
+  deploy:
+    name: Deploy
+    needs: build
     runs-on: ubuntu-latest
     strategy:
       matrix:
