@@ -3,59 +3,46 @@ on:
   push:
     branches:
       - specify-job-name 
-
 jobs:
-  build:
-    name: Build
+  hoge:
+    name: hoge
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Build
+      - name: Hello
         run: |
-          echo "Build"
-
+          echo "HELLO"
       - uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
           author_name: ''
-          job_name: Build
-          username: 'GitHub Actions'
+          job_name: hoge
+          username: Test
           icon_emoji: ':github_octocat:'
-          fields: repo,commit,author,job,workflow,took
+          fields: repo,commit,author,job,workflow,took # selectable (default: repo,message)
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: always()
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+        if: always() # Pick up events even if the job fails or is canceled.
 
-  deploy:
-    name: Deploy
-    needs: build
+  fuga:
+    name: fuga
+    needs: hoge
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: ["web", "ope"]
+        service: [ "web", "ope" ]
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Install ecspresso
-        uses: kayac/ecspresso@v1
-        with:
-          version: v1.0.0
-
-      - name: Deploy
+      - name: YO
         run: |
-          echo "Deploy"
-
+          echo "HELLO"
       - uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
           author_name: ''
-          username: 'GitHub Actions'
+          username: Test
           icon_emoji: ':github_octocat:'
-          fields: repo,commit,author,job,workflow,took
+          fields: repo,commit,author,job,workflow,took # selectable (default: repo,message)
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
-        if: always()
+        if: always() # Pick up events even if the job fails or is canceled.
