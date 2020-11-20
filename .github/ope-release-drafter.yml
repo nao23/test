@@ -1,0 +1,14 @@
+name-template: "ope-$RESOLVED_VERSION"
+tag-template: "ope-$RESOLVED_VERSION"
+categories:	
+  - title: "機能"	
+    labels: ["enhancement"]	
+  - title: "バグ修正"	
+    labels: ["bug"]	
+  - title: "その他"	
+    labels: ["refactor", "test"]	
+exclude-labels:
+  - 'release'
+template: |	
+  ## 変更内容	
+  $CHANGES 

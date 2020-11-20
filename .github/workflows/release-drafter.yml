@@ -1,0 +1,33 @@
+name: "Release Drafter"	
+on:	
+  pull_request:
+    # @see https://help.github.com/en/actions/reference/events-that-trigger-workflows#pull-request-event-pull_request
+    branches:
+      - release
+    types: [closed]
+
+jobs:        
+  update_release_draft:	
+    name: "Update release draft"	
+    runs-on: "ubuntu-latest"	
+    strategy:
+      matrix:
+        service: ["web", "ope"]
+    if: github.event.pull_request.merged == true
+    steps:
+      - name: Create New Version
+        id: create-new-version
+        run: |
+          # timezone を JST にする
+          # カレンダーバージョニング
+          # @see https://calver.org/
+          _new_version=`TZ="Asia/Tokyo" date '+%y.%m%d.%H%M'`
+          # 後続の処理で new_version で参照出来ます
+          echo ::set-output name=new_version::${_new_version}
+      # see https://github.com/marketplace/actions/release-drafter	
+      - uses: "release-drafter/release-drafter@v5"	
+        env:	
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        with:
+          config-name: ${{ matrix.service }}-release-drafter.yml
+          version: ${{ steps.create-new-version.outputs.new_version }}
