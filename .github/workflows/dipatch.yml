@@ -8,10 +8,12 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
+      - uses: nelonoel/branch-name@v1.0.1
+      - run: echo ${BRANCH_NAME}
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${BRANCH_NAME}
 
       - uses: 8398a7/action-slack@v3
         with:
@@ -33,7 +35,7 @@ jobs:
                 },
                 {
                   title: 'branch',
-                  value: '${{ github.head_ref }}',
+                  value: '${BRANCH_NAME}',
                   short: true
                 },
                 {
