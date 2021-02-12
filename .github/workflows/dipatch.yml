@@ -8,12 +8,14 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-      - uses: nelonoel/branch-name@v1.0.1
-      - run: echo ${BRANCH_NAME}
+      - name: Extract branch name
+        id: extract_branch
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: ${BRANCH_NAME}
+          ref: ${{ steps.extract_branch.outputs.branch }}
 
       - uses: 8398a7/action-slack@v3
         with:
@@ -35,7 +37,7 @@ jobs:
                 },
                 {
                   title: 'branch',
-                  value: '${BRANCH_NAME}',
+                  value: '${{ steps.extract_branch.outputs.branch }}',
                   short: true
                 },
                 {
