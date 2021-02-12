@@ -1,0 +1,63 @@
+name: Workflow Dispatch Test
+on:
+  # @see https://docs.github.com/ja/free-pro-team@latest/actions/reference/events-that-trigger-workflows#手動イベント
+  workflow_dispatch:
+
+jobs:
+  Deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - uses: 8398a7/action-slack@v3
+        with:
+          status: custom
+          fields: workflow,job,commit,repo,ref,author,took
+          custom_payload: |
+            {
+              icon_emoji: ':github_octocat:',
+              username: 'GitHub Actions',
+              text: '${{ job.status }}' === 'success' ? ':white_check_mark: Succeeded GitHub Actions' : '${{ job.status }}' === 'failure' ? ':no_entry: Failed GitHub Actions' : ':warning: Canceled GitHub Actions',
+              attachments: [{
+                author_name: '',
+                fallback: 'fallback',
+                color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
+                fields: [{
+                  title: 'repo',
+                  value: `${process.env.AS_REPO}`,
+                  short: true
+                },
+                {
+                  title: 'branch',
+                  value: '${{ github.head_ref }}',
+                  short: true
+                },
+                {
+                  title: 'auhor',
+                  value: `${process.env.AS_AUTHOR}`,
+                  short: true
+                },
+                {
+                  title: 'job',
+                  value: `${process.env.AS_JOB}`,
+                  short: true
+                },
+                {
+                  title: 'took',
+                  value: `${process.env.AS_TOOK}`,
+                  short: true
+                },
+                {
+                  title: 'workflow',
+                  value: `${process.env.AS_WORKFLOW}`,
+                  short: true
+                }]
+              }]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
