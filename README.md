@@ -1,5 +1,3 @@
 # test
 
-hoge
-fuga
-yoyo
+this is test repository
