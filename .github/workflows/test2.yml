@@ -1,0 +1,15 @@
+name: test2
+on:
+  pull_request:
+    paths:
+      - "*"
+      - "dir1/*"
+
+jobs:
+  echo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo
+        run: |
+          echo "test2 workflow"
+
