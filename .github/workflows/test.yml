@@ -1,0 +1,20 @@
+# このワークフローは手動で起動され、入力で指定したブランチをデプロイします
+
+name: Debug
+on:
+  # @see https://docs.github.com/ja/free-pro-team@latest/actions/reference/events-that-trigger-workflows#手動イベント
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build and Upload
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ steps.extract-branch.outputs.branch }}
+      
+      - name: Run 
+        run: echo ${{ steps.extract-branch.outputs.branch }}
+
