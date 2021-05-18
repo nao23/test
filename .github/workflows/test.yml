@@ -1,9 +1,12 @@
-# このワークフローは手動で起動され、入力で指定したブランチをデプロイします
 
 name: Debug
 on:
-  # @see https://docs.github.com/ja/free-pro-team@latest/actions/reference/events-that-trigger-workflows#手動イベント
-  workflow_dispatch:
+  push:
+    paths:
+      - ".gthub/workflows/test.yml"
+      - "README.md"
+    branches:
+      - main
 
 jobs:
   build:
@@ -14,5 +17,5 @@ jobs:
         uses: actions/checkout@v2
       
       - name: Run 
-        run: echo hello
+        run: cat README.md
 
