@@ -10,7 +10,7 @@ jobs:
   Deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    if: startsWith(github.event.release.tag_name, "hoge")
+    if: startsWith(github.event.release.tag_name, 'hoge')
     steps:
       - name: test
         run: |

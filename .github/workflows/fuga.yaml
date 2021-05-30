@@ -10,7 +10,7 @@ jobs:
   Deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    if: startsWith(github.event.release.tag_name, "fuga")
+    if: startsWith(github.event.release.tag_name, 'fuga')
     steps:
       - name: test
         run: |
