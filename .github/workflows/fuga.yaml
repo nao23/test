@@ -1,5 +1,5 @@
 
-name: Deploy Hoge
+name: Deploy Fuga
 on:
   release:
     types:
@@ -10,7 +10,7 @@ jobs:
   Deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    if: startsWith(github.event.release.tag_name, "hoge")
+    if: startsWith(github.event.release.tag_name, "fuga")
     steps:
       - name: test
         run: |
