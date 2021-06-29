@@ -17,8 +17,10 @@ jobs:
 
       - name: get latest tag name
         id: get-latest-tag
+        env:
+          GITHUB_RELEASE_API_ENDPOINT: https://api.github.com/repos/SafieDev/spyder-web/releases
         run: |
-          LATEST_TAG=$(git tag -l "fuga-*" | sort -r | head -n1)
+          LATEST_TAG=$(curl -s -H "Authorization: token ${{ github.token }}" $GITHUB_RELEASE_API_ENDPOINT | jq -r '.[].tag_name' | grep "fuga" | sort -r | head -n1)
           echo "::set-output name=latest_tag::$LATEST_TAG"
 
       - name: test
