@@ -20,6 +20,7 @@ jobs:
         env:
           GITHUB_RELEASE_API_ENDPOINT: https://api.github.com/repos/SafieDev/spyder-web/releases
         run: |
+          curl -s -H "Authorization: token ${{ github.token }}" $GITHUB_RELEASE_API_ENDPOINT | jq '.'
           LATEST_TAG=$(curl -s -H "Authorization: token ${{ github.token }}" $GITHUB_RELEASE_API_ENDPOINT | jq -r '.[].tag_name' | grep "hoge" | sort -r | head -n1)
           echo "::set-output name=latest_tag::$LATEST_TAG"
       - name: test
