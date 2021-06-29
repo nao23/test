@@ -1,0 +1,26 @@
+
+name: Deploy
+on:
+  release:
+    types:
+      - released
+      - deleted
+
+jobs:
+  Deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: get latest tag name
+        id: get-latest-tag
+        env:
+          GITHUB_RELEASE_API_ENDPOINT: https://api.github.com/repos/nao23/test/releases
+        run: |
+          SERVICE=$(echo ${{ github.event.release.tag_name }} | cut -d '-' -f1)
+          LATEST_TAG=$(curl -s -H "Authorization: token ${{ github.token }}" $GITHUB_RELEASE_API_ENDPOINT | jq -r '.[].tag_name' | grep "$SERVICE" | sort -r | head -n1)
+          echo "::set-output name=latest_tag::$LATEST_TAG"
+
+      - name: test
+        run: |
+          echo ${{ github.event.release.tag_name }}
+          echo ${{ steps.get-latest-tag.outputs.latest_tag }}
