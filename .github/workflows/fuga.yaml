@@ -12,6 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     if: startsWith(github.event.release.tag_name, 'fuga')
     steps:
+      - name: get latest tag name
+        id: get-latest-tag
+        run: |
+          LATEST_TAG=$(git tag -l "fuga-*" | sort -r | head -n1)
+          echo "::set-output name=latest_tag::$LATEST_TAG"
+
       - name: test
         run: |
           echo ${{ github.event.release.tag_name }}
+          echo ${{ steps.get-latest-tag.outputs.latest_tag }}
