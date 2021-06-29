@@ -12,9 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     if: startsWith(github.event.release.tag_name, 'fuga')
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
       - name: get latest tag name
         id: get-latest-tag
         env:
