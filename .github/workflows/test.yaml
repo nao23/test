@@ -18,7 +18,7 @@ jobs:
       - name: get latest tag name
         id: get-latest-tag
         env:
-          GITHUB_RELEASE_API_ENDPOINT: https://api.github.com/repos/SafieDev/spyder-web/releases
+          GITHUB_RELEASE_API_ENDPOINT: https://api.github.com/repos/nao23/test/releases
         run: |
           curl -s -H "Authorization: token ${{ github.token }}" $GITHUB_RELEASE_API_ENDPOINT | jq '.'
           LATEST_TAG=$(curl -s -H "Authorization: token ${{ github.token }}" $GITHUB_RELEASE_API_ENDPOINT | jq -r '.[].tag_name' | grep "hoge" | sort -r | head -n1)
